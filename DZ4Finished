@@ -1,0 +1,122 @@
+#include <stdio.h> 
+#include <stdlib.h> 
+#include <math.h>//библиотека содержащая математические функции
+double Abs(double num)
+{
+    return num >= 0 ? num : -num;// операция модуля
+}
+double Pow(double digtopow, int degree)
+{
+    double rslt = 1.0;
+    if (degree > 0)
+    {
+        for (int i = degree; i > 0; i--)
+        {
+            rslt *= digtopow;
+        }
+        return rslt;
+    }
+    else if (degree < 0)
+    {
+        for (int i = degree; i < 0; i++)
+        {
+            rslt /= digtopow;
+        }
+        return rslt;
+    }
+        return 1;
+}
+int GCD(int numa, int numb) {
+    while (numa != 0 and numb != 0) {
+        if (numa > numb) {
+            numa = numa % numb;
+        }
+        else {
+            numb = numb % numa;
+        }
+    }
+    return numa + numb;
+}
+int GCDR(int numa, int numb) {
+    if (numb == 0) {
+        return numa;
+    }
+    return GCDR(numb, numa % numb);
+}
+int Log2(float x )
+{
+    int n = 1, i = 0;
+    for (; n < x; i++)
+    {
+        n *= 2;
+    }
+    return x <= 0 ? -2 : n == x ? i : -1; //если x меньше или равен 0, то возвращаем -2, иначе если n равен x возвращаем i иначе возвращаем -1
+}
+int EotX(double strtx, double endx, double dx, double E)
+{
+    printf("%lf", Pow(10, E));
+    printf("\n--------------------------------------------------------------\n"
+		"|       x      |    f(x)    |  n  |       ln(x)              |\n"
+        "--------------------------------------------------------------\n");
+    for (double x = strtx; x <= endx; x += dx)
+    {
+        double sum = 0, AccuracyCheck = log(x);
+        for (int n = 0;; n++)
+        {
+            if (Pow(x - 1, 2 * n + 1) / ((2 * n + 1) * Pow(x + 1, 2 * n + 1)) < Pow(10, E))
+            {
+                sum *= 2;
+                printf("| %11.10lf | %10.*Lf | %3f | %24.*Lf |\n", x, (int)Abs(E), sum, n, (int)Abs(E), AccuracyCheck);
+                break;
+            }
+            sum += Pow(x - 1, 2 * n + 1) / ((2 * n + 1) * pow(x + 1, 2 * n + 1));
+        }
+    }
+    printf("--------------------------------------------------------------\n");
+    return 0;
+}
+int main()
+{
+    int tnum = 0;
+    printf("Choose paragraph of task:\n\t 1. Log2 \n\t 2. GCD \n\t 3. GCD recursion \n\t 4. Tailor \n\t Paragraph: ");
+    scanf("%d", &tnum);
+    switch (tnum)
+    {
+    case 1:
+    {
+        printf("Enter number: ");
+        float num = 0;
+        scanf("%f", &num);
+        printf("The Log2 of entered number is %i", Log2(num));
+        break;
+    }
+    case 2:
+    {
+        int numa, numb;
+        printf("Enter first and second number to calculate the GCD:");
+        scanf("%i%i", &numa, &numb);
+        printf("%i", GCD(numa, numb));
+        break;
+    }
+    case 3:
+    {
+        int numa, numb;
+        printf("Enter first and second number to calculate the GCD recursion:");
+        scanf("%i%i", &numa, &numb);
+        printf("%i", GCDR(numa, numb));
+        break;
+    }
+    case 4:
+    {
+        double strtx, dx, endx, E;
+        printf("input start coord x, end x, step lenght dx,  E\n");
+        scanf("%lf%lf%lf%lf", &strtx, &endx, &dx,  &E);
+        EotX(strtx, endx, dx, E);
+        break;
+    }
+    default:
+        break;
+    }
+
+    return 0;
+}
